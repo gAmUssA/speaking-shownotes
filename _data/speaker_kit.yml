@@ -1,0 +1,33 @@
+# Publication photos for the homepage hero and the /bio/ press kit.
+# file: 2400px download (in assets/images/speaker/); preview: small display copy
+hero:
+  file: studio-2.jpg
+  preview: studio-2-600.jpg
+  alt: "Viktor Gamov, smiling studio portrait"
+  width: 600
+  height: 600
+  credit: "Mark Holmes Photography"
+
+stage_photo:
+  file: headshot-2.jpg
+  preview: headshot-2-960.jpg
+  alt: "Viktor Gamov speaking on stage at Devoops"
+  width: 960
+  height: 639
+
+photos:
+  # 2026 studio session (Mark Holmes Photography for Confluent)
+  - { file: studio-2.jpg, preview: studio-2-600.jpg, width: 600, height: 600, alt: "Viktor Gamov, smiling studio portrait", credit: "Mark Holmes Photography" }
+  - { file: studio-4.jpg, preview: studio-4-600.jpg, width: 600, height: 600, alt: "Viktor Gamov, smiling, three-quarter view", credit: "Mark Holmes Photography" }
+  - { file: studio-1.jpg, preview: studio-1-600.jpg, width: 600, height: 600, alt: "Viktor Gamov, head and shoulders portrait", credit: "Mark Holmes Photography" }
+  - { file: studio-3.jpg, preview: studio-3-600.jpg, width: 600, height: 600, alt: "Viktor Gamov with arms crossed, smiling", credit: "Mark Holmes Photography" }
+  - { file: studio-5.jpg, preview: studio-5-600.jpg, width: 600, height: 600, alt: "Viktor Gamov with arms crossed, serious expression", credit: "Mark Holmes Photography" }
+  - { file: studio-6.jpg, preview: studio-6-600.jpg, width: 600, height: 600, alt: "Viktor Gamov with arms crossed, looking at the camera", credit: "Mark Holmes Photography" }
+  - { file: studio-7.jpg, preview: studio-7-600.jpg, width: 600, height: 600, alt: "Viktor Gamov in a thoughtful pose, hand at chin", credit: "Mark Holmes Photography" }
+  # Earlier photos migrated from https://noti.st/vikgamov/bio
+  - { file: headshot-2.jpg, preview: headshot-2-480.jpg, width: 480, height: 320, alt: "Viktor Gamov speaking on stage at Devoops" }
+  - { file: headshot-3.jpg, preview: headshot-3-480.jpg, width: 480, height: 320, alt: "Viktor Gamov smiling, arms crossed, in a bright studio" }
+  - { file: headshot-1.jpg, preview: headshot-1-480.jpg, width: 480, height: 698, alt: "Viktor Gamov in an Apache Kafka T-shirt, arms crossed" }
+  - { file: headshot-4.jpg, preview: headshot-4-480.jpg, width: 480, height: 720, alt: "Studio portrait of Viktor Gamov on an orange background" }
+  - { file: headshot-5.jpg, preview: headshot-5-480.jpg, width: 480, height: 720, alt: "Studio portrait of Viktor Gamov on a blue background" }
+  - { file: headshot-6.jpg, preview: headshot-6-480.jpg, width: 480, height: 719, alt: "Studio portrait of Viktor Gamov in an Apache Kafka T-shirt" }

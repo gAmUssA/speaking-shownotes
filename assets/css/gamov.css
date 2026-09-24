@@ -509,3 +509,722 @@ code, pre, kbd {
         align-items: flex-start;
     }
 }
+
+/* ==========================================================================
+   Speaking portfolio: hero, proof, filters, press kit
+   Mobile first; wider layouts from 768px
+   ========================================================================== */
+
+[hidden] {
+    display: none !important;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Mobile nav: one swipeable row instead of three wrapped rows ---------- */
+@media (max-width: 767px) {
+    .site-header {
+        overflow-x: clip;
+    }
+
+    /* Bleed the scroll row to the screen edges; --gutter matches .wrapper padding */
+    .site-nav {
+        --gutter: var(--space-4);
+        margin: 0 calc(-1 * var(--gutter));
+        -webkit-mask-image: linear-gradient(to right, #000 85%, transparent);
+        mask-image: linear-gradient(to right, #000 85%, transparent);
+    }
+
+    .site-nav ul {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        padding: 0 var(--gutter);
+        gap: 0 var(--space-5);
+        scroll-snap-type: x proximity;
+        scroll-padding-inline: var(--gutter);
+    }
+
+    .site-nav ul::-webkit-scrollbar {
+        display: none;
+    }
+
+    .site-nav li {
+        flex-shrink: 0;
+        scroll-snap-align: start;
+    }
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 44px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-md);
+    border: 1px solid transparent;
+    font-family: var(--sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+
+.btn--primary {
+    background: var(--color-accent);
+    color: #ffffff;
+}
+
+.btn--primary:hover {
+    background: var(--color-accent-dark);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .btn--primary,
+[data-theme="dark"] .btn--primary:hover {
+    color: #0a0a0a;
+}
+
+.btn--secondary {
+    background: transparent;
+    color: var(--color-text-primary);
+    border-color: var(--color-border-strong);
+}
+
+.btn--secondary:hover {
+    color: var(--color-accent);
+    border-color: var(--color-accent);
+}
+
+.link-button {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: var(--color-link);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+}
+
+/* ---------- Hero ---------- */
+.speaker-hero,
+.speaker-hero.speaker-bar {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-8);
+    align-items: center;
+    padding: var(--space-4) 0 var(--space-10);
+    margin: 0;
+    border-bottom: none;
+}
+
+.speaker-hero__photo {
+    order: -1;
+    justify-self: start;
+}
+
+.speaker-hero__photo img {
+    width: 132px;
+    height: 132px;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border-radius: 9999px;
+    box-shadow: 0 0 0 4px var(--color-background), 0 0 0 5px var(--color-border);
+}
+
+.badge-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-5);
+    padding: 0;
+    list-style: none;
+}
+
+/* Pills as on gamov.io's homepage */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    min-height: 30px;
+    padding: 0 var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+}
+
+.speaker-hero__text h1,
+.speaker-bar__info.speaker-hero__text h1,
+[data-theme="dark"] .speaker-bar__info.speaker-hero__text h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.5rem, 9vw, 4rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-3);
+    color: var(--color-text-primary);
+}
+
+.speaker-hero__headline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-5);
+}
+
+.speaker-hero__bio.speaker-bar__bio {
+    display: block;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    margin: 0 0 var(--space-6);
+}
+
+.speaker-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+}
+
+.speaker-hero .speaker-bar__social {
+    margin-left: calc(-1 * var(--space-3));
+}
+
+/* Stacked full-width buttons on small phones */
+@media (max-width: 479px) {
+    .speaker-hero__actions .btn {
+        flex: 1 1 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .speaker-hero,
+    .speaker-hero.speaker-bar {
+        grid-template-columns: minmax(0, 1fr) 300px;
+        gap: var(--space-12);
+        padding: var(--space-8) 0 var(--space-12);
+    }
+
+    .speaker-hero__photo {
+        order: 0;
+        justify-self: end;
+    }
+
+    .speaker-hero__photo img {
+        width: 300px;
+        height: 300px;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+/* ---------- Stats ---------- */
+.speaker-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1px;
+    margin: 0 0 var(--space-10);
+    background: var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+
+.speaker-stats__item {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-1);
+    padding: var(--space-5) var(--space-5);
+    background: var(--color-background);
+}
+
+.speaker-stats dt {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+.speaker-stats dd {
+    margin: 0;
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.1;
+    color: var(--color-text-primary);
+    font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 768px) {
+    .speaker-stats {
+        grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+        grid-auto-flow: column;
+    }
+}
+
+/* ---------- Featured at ---------- */
+.featured-at {
+    margin: 0 0 var(--space-16);
+    text-align: center;
+}
+
+.featured-at .featured-at__label {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin: 0 0 var(--space-4);
+}
+
+.featured-at__list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3) var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.featured-at__list li {
+    font-family: var(--sans);
+    font-size: 1.0625rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--color-text-secondary);
+}
+
+/* ---------- Featured grid on phones ---------- */
+@media (max-width: 767px) {
+    .featured-talks-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ---------- Filters ---------- */
+.talk-filters {
+    display: grid;
+    gap: var(--space-4);
+    margin: 0 0 var(--space-6);
+}
+
+.talk-filters__search {
+    position: relative;
+}
+
+.talk-filters__search-icon {
+    position: absolute;
+    left: var(--space-4);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+.talk-filters input[type="search"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 var(--space-4) 0 calc(var(--space-4) + 26px);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    background: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--sans);
+    font-size: 1rem; /* 16px keeps iOS from zooming on focus */
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.talk-filters input[type="search"]::placeholder {
+    color: var(--color-text-muted);
+}
+
+.talk-filters input[type="search"]:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-accent) 25%, transparent);
+}
+
+.chip-row {
+    display: flex;
+    gap: var(--space-2);
+    overflow-x: auto;
+    scrollbar-width: none;
+    padding-bottom: 2px;
+}
+
+.chip-row::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .chip-row {
+        flex-wrap: wrap;
+        overflow: visible;
+    }
+}
+
+.chip {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 40px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    background: var(--color-background);
+    color: var(--color-text-secondary);
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition: background-color var(--transition-base), border-color var(--transition-base), color var(--transition-base);
+}
+
+/* 44px touch target while the pill stays visually 40px */
+.chip {
+    position: relative;
+}
+
+.chip::after {
+    content: "";
+    position: absolute;
+    inset: -2px 0;
+}
+
+.chip:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.chip[aria-pressed="true"] {
+    background: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .chip[aria-pressed="true"] {
+    color: #0a0a0a;
+}
+
+.talk-filters__status {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+}
+
+.talk-filters__empty {
+    padding: var(--space-10) 0;
+    text-align: center;
+    font-family: var(--sans);
+    color: var(--color-text-secondary);
+}
+
+.year-nav-wrapper .year-nav {
+    margin-bottom: var(--space-8);
+}
+
+/* ---------- Phones: compact talk rows, swipeable year row ---------- */
+@media (max-width: 767px) {
+    .talk-list-item {
+        padding: var(--space-4) 0;
+    }
+
+    .talk-list-item-link {
+        gap: var(--space-4);
+    }
+
+    .talk-thumbnail {
+        width: 112px;
+        height: 63px;
+    }
+
+    .talk-info h3 {
+        font-size: 1.0625rem;
+        line-height: 1.35;
+    }
+
+    .talk-meta {
+        gap: var(--space-1) var(--space-3);
+        margin-bottom: 0;
+    }
+
+    /* Abstract snippets make a 106-talk list too long on a phone */
+    .talk-list-item .talk-summary {
+        display: none;
+    }
+
+    /* main.css hides the meta line on phones; event and date matter most */
+    .talk-info .talk-meta {
+        display: flex;
+        margin-top: var(--space-1);
+    }
+
+    .talk-info .meta-item.status-badge.video-pending {
+        display: none;
+    }
+
+    .year-nav-wrapper .year-nav {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        margin-bottom: var(--space-6);
+    }
+
+    .year-nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .year-nav li {
+        flex-shrink: 0;
+    }
+
+    .page-content {
+        padding-top: var(--space-6);
+    }
+}
+
+/* ---------- Kit teaser ---------- */
+.kit-teaser {
+    display: grid;
+    gap: var(--space-5);
+    margin: var(--space-16) 0 0;
+    padding: var(--space-8);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    background: var(--color-accent-light);
+}
+
+.kit-teaser h2 {
+    font-size: 1.5rem;
+    margin: 0 0 var(--space-2);
+}
+
+.kit-teaser p {
+    margin: 0;
+    font-family: var(--serif);
+    color: var(--color-text-secondary);
+}
+
+.kit-teaser__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+}
+
+@media (min-width: 768px) {
+    .kit-teaser {
+        grid-template-columns: 1fr auto;
+        align-items: center;
+    }
+}
+
+/* ---------- Bio & press kit page ---------- */
+.eyebrow {
+    margin: 0 0 var(--space-2);
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+}
+
+.bio-hero {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    align-items: center;
+    padding-bottom: var(--space-10);
+    border-bottom: 1px solid var(--color-border);
+}
+
+.bio-hero__photo {
+    width: 132px;
+    height: 132px;
+    object-fit: cover;
+    object-position: 50% 20%;
+    border-radius: 9999px;
+}
+
+.bio-hero__name {
+    font-size: clamp(2.25rem, 8vw, 3.25rem);
+    line-height: 1.1;
+    margin: 0 0 var(--space-2);
+}
+
+.bio-hero__headline {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    margin: 0 0 var(--space-4);
+}
+
+.bio-hero__note {
+    margin: 0;
+    font-family: var(--sans);
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+}
+
+@media (min-width: 768px) {
+    .bio-hero {
+        grid-template-columns: 200px 1fr;
+        gap: var(--space-10);
+    }
+
+    .bio-hero__photo {
+        width: 200px;
+        height: 200px;
+        border-radius: var(--radius-lg);
+    }
+}
+
+.bio-section {
+    padding: var(--space-10) 0;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.bio-section:last-child {
+    border-bottom: none;
+}
+
+.bio-section__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.bio-section__header h2 {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+.bio-section__intro {
+    margin: 0 0 var(--space-6);
+    font-family: var(--sans);
+    color: var(--color-text-secondary);
+}
+
+.bio-text {
+    font-family: var(--serif);
+    font-size: 1.125rem;
+    line-height: 1.7;
+    max-width: var(--prose-measure);
+    color: var(--color-text-primary);
+}
+
+.bio-text p {
+    margin: 0 0 var(--space-4);
+}
+
+.photo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+@media (min-width: 768px) {
+    .photo-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--space-6);
+    }
+}
+
+.photo-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-surface);
+}
+
+.photo-card__image {
+    display: block;
+    aspect-ratio: 1 / 1;
+    background: var(--color-border);
+}
+
+.photo-card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 25%;
+    transition: opacity var(--transition-base);
+}
+
+.photo-card__image:hover img {
+    opacity: 0.9;
+}
+
+.photo-card__meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: var(--space-2) var(--space-3) var(--space-3);
+}
+
+.photo-card__download {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    font-family: var(--sans);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-link);
+    text-decoration: none;
+}
+
+.photo-card__download:hover {
+    color: var(--color-link-hover);
+    text-decoration: underline;
+}
+
+.photo-card__credit {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+}
+
+.link-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-6);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.link-list a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-family: var(--sans);
+}

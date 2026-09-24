@@ -9,7 +9,7 @@ module Jekyll
   # Migrated talks carry `<!-- Source: https://<notist-host>/<id>/<slug> -->`.
   # For each one this writes a redirect page at /<id>/<slug>/ and /<id>/
   # pointing to the talk's new URL, plus redirects for Notist's
-  # profile pages (/presentations, /bio, /videos).
+  # profile pages (/presentations, /videos).
   class NotistRedirectPage < PageWithoutAFile
     def initialize(site, path, target_url)
       super(site, site.source, path, 'index.html')
@@ -39,7 +39,7 @@ module Jekyll
 
     SOURCE_PATTERN = %r{<!--\s*Source:\s*(https?://\S+?)\s*-->}
     NOTIST_PATH = %r{\A/([A-Za-z0-9]{6})/([\w-]+)/?\z}
-    PROFILE_PATHS = %w[presentations bio videos].freeze
+    PROFILE_PATHS = %w[presentations videos].freeze # /bio/ is a real page (bio.md)
 
     def generate(site)
       talks = site.collections['talks']

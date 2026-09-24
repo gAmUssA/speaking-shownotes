@@ -1,0 +1,94 @@
+---
+layout: default
+title: Bio & press kit
+description: Speaker biographies and publication photos of Viktor Gamov, ready for conference programs and event promotion.
+permalink: /bio/
+---
+{% assign kit = site.data.speaker_kit %}
+{% assign speaker = site.speaker %}
+{% assign photo_base = '/assets/images/speaker/' %}
+
+<div class="bio-page">
+    <header class="bio-hero">
+        {% if kit.hero %}
+        <img class="bio-hero__photo" src="{{ photo_base | append: kit.hero.preview | relative_url }}" alt="{{ kit.hero.alt }}" width="{{ kit.hero.width }}" height="{{ kit.hero.height }}">
+        {% endif %}
+        <div>
+            <p class="eyebrow">Bio &amp; press kit</p>
+            <h1 class="bio-hero__name">{{ speaker.display_name | default: speaker.name }}</h1>
+            {% if speaker.headline %}<p class="bio-hero__headline">{{ speaker.headline }}</p>{% endif %}
+            <p class="bio-hero__note">Biographies and photos on this page may be used to promote events Viktor is speaking at.</p>
+        </div>
+    </header>
+
+    <section class="bio-section" aria-labelledby="short-bio-heading">
+        <div class="bio-section__header">
+            <h2 id="short-bio-heading">Short biography</h2>
+            <button type="button" class="btn btn--secondary copy-button" data-copy-target="short-bio" data-copy-label="Copy short bio">Copy short bio</button>
+        </div>
+        <p id="short-bio" class="bio-text">{{ speaker.short_bio }}</p>
+    </section>
+
+    <section class="bio-section" aria-labelledby="full-bio-heading">
+        <div class="bio-section__header">
+            <h2 id="full-bio-heading">Full biography</h2>
+            <button type="button" class="btn btn--secondary copy-button" data-copy-target="full-bio" data-copy-label="Copy full bio">Copy full bio</button>
+        </div>
+        {% capture full_bio %}
+Thank you for stopping by. My name is Viktor (I also go by Vik) Gamov.
+
+I’m a Principal Developer Advocate at [Confluent](https://developer.confluent.io), founded by the original creators of Apache Kafka®. As a Java Champion and an esteemed speaker, Viktor is known for his insightful presentations at top industry events like JavaOne, Devoxx, Kafka Summit, and QCon. His expertise spans distributed systems, real-time data streaming, JVM, and DevOps. You can find my past talks at [speaking.gamov.io](https://speaking.gamov.io/).
+
+What do I do? A few things:
+
+- I occasionally [blog](https://gamov.io/posts/)
+- I make some vids and livestream on [YouTube](https://gamov.dev/youtube) and [Twitch](https://twitch.com/gamussa)
+- And, obviously, push some code to [GitHub](https://github.com/gamussa)
+
+I co-authored Manning’s book [«Kafka in Action»](https://kafkainaction.org) and O’Reilly’s book [«Enterprise Web Development. Building HTML5 Applications: From Desktop to Mobile»](https://www.oreilly.com/library/view/enterprise-web-development/9781449357023/).
+
+You can follow me on [X](https://x.com/gamussa) and [Instagram](https://instagram.com/gamussa), where I post about gym and food adventures, and insights into open-source and developer advocacy.
+        {% endcapture %}
+        <div id="full-bio" class="bio-text">{{ full_bio | markdownify }}</div>
+    </section>
+
+    {% if kit.photos %}
+    <section class="bio-section" aria-labelledby="photos-heading">
+        <div class="bio-section__header">
+            <h2 id="photos-heading">Photos</h2>
+        </div>
+        <p class="bio-section__intro">High-resolution photos for publication. Please include the credit where one is listed.</p>
+        <ul class="photo-grid">
+            {% for photo in kit.photos %}
+            <li class="photo-card">
+                <a class="photo-card__image" href="{{ photo_base | append: photo.file | relative_url }}" download>
+                    <img src="{{ photo_base | append: photo.preview | relative_url }}" alt="{{ photo.alt }}" width="{{ photo.width }}" height="{{ photo.height }}" loading="lazy" decoding="async">
+                </a>
+                <div class="photo-card__meta">
+                    <a class="photo-card__download" href="{{ photo_base | append: photo.file | relative_url }}" download>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                        Download<span class="visually-hidden"> {{ photo.alt }}</span>
+                    </a>
+                    {% if photo.credit %}<span class="photo-card__credit">Photo: {{ photo.credit }}</span>{% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    <section class="bio-section" aria-labelledby="elsewhere-heading">
+        <div class="bio-section__header">
+            <h2 id="elsewhere-heading">Elsewhere</h2>
+        </div>
+        <ul class="link-list">
+            <li><a href="https://gamov.io/">Blog — gamov.io</a></li>
+            {% if speaker.youtube_url %}<li><a href="{{ speaker.youtube_url }}">YouTube</a></li>{% endif %}
+            {% if speaker.social.github != "" %}<li><a href="https://github.com/{{ speaker.social.github }}">GitHub</a></li>{% endif %}
+            {% if speaker.social.linkedin != "" %}<li><a href="https://linkedin.com/in/{{ speaker.social.linkedin }}">LinkedIn</a></li>{% endif %}
+            {% if speaker.social.x != "" %}<li><a href="https://x.com/{{ speaker.social.x }}">X</a></li>{% endif %}
+            {% if speaker.social.bluesky != "" %}<li><a href="https://bsky.app/profile/{{ speaker.social.bluesky }}">Bluesky</a></li>{% endif %}
+            <li><a href="https://kafkainaction.org">Kafka in Action (Manning)</a></li>
+        </ul>
+    </section>
+</div>

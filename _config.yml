@@ -56,14 +56,35 @@ speaker:
   name: "Viktor Gamov"
   display_name: ""                 # Optional: Override for display (if empty, uses name)
   bio: "Principal Developer Advocate at Confluent, founded by the original creators of Apache Kafka®. Java Champion and speaker at JavaOne, Devoxx, Kafka Summit, and QCon. Expertise spans distributed systems, real-time data streaming, JVM, and DevOps. Co-author of “Enterprise Web Development” and “Apache Kafka® in Action”."
+  # Portfolio hero (all optional)
+  headline: "Principal Developer Advocate at Confluent"
+  # Hero intro, same voice as the gamov.io homepage (falls back to bio)
+  intro: "I build, break, and explain distributed systems. Developer advocate, author of Kafka in Action, and co-host of DevRel Radio. I’ve spent two decades turning complex tech into something humans actually enjoy using."
+  badges: ["Java Champion", "Conference Speaker", "Published Author", "Podcast Host"]
+  short_bio: "Viktor Gamov is a Principal Developer Advocate at Confluent, founded by the original creators of Apache Kafka®. Viktor is known for his insightful presentations at top industry events like JavaOne, Devoxx, Kafka Summit, and QCon. His expertise spans distributed systems, real-time data streaming, JVM, and DevOps."
+  youtube_url: "https://www.youtube.com/@viktorgamov"
+  speaking_since: ""               # e.g. "2011" — adds an "On stage since" stat
+  booking_url: ""                  # e.g. "mailto:you@example.com" — shows an "Invite me to speak" button
+  # Topics power the filter chips on the homepage; keywords match talk titles, events, and abstracts
+  topics:
+    - name: "AI & MCP"
+      keywords: ["mcp", " ai", "ai ", "llm", "langchain4j", "koog", "spring ai", "agent"]
+    - name: "Apache Kafka"
+      keywords: ["kafka", "ksql", "schema registry", "event stream"]
+    - name: "Apache Flink"
+      keywords: ["flink"]
+    - name: "Kubernetes & Cloud"
+      keywords: ["kubernetes", "k8s", "kong", "ingress", "service mesh", "kuma", "cloud", "serverless", "knative"]
+    - name: "Java & Spring"
+      keywords: ["java", "spring", "quarkus", "kotlin", "jvm", "micronaut"]
   avatar_url: ""                   # Optional: Custom avatar URL (fallback if no social media avatars available)
   # Social media handles (all optional - leave empty to hide)
   social:
-    linkedin: ""                 # Optional: LinkedIn username (generates https://linkedin.com/in/<username>)
+    linkedin: "vikgamov"         # Optional: LinkedIn username (generates https://linkedin.com/in/<username>)
     x: "gamussa"                 # Optional: X.com username
     github: "gamussa"            # Optional: GitHub username (also used for avatar)
     mastodon: ""                 # Optional: Full Mastodon URL (e.g., "https://mastodon.social/@username")
-    bluesky: ""                  # Optional: BlueSky username
+    bluesky: "gamussa.dev"       # Optional: BlueSky username
 
 # Site metadata (templates will use speaker config)
 title: "Viktor Gamov — Talks"
@@ -81,7 +102,17 @@ featured_talks_count: 3
 #   - "QCon"
 #   - "DevNexus"
 #   - "KubeCon"
-featured_conferences: []
+featured_conferences:
+  - "Devoxx"
+  - "Kafka Summit"
+  - "SpringOne"
+  - "DevNexus"
+  - "Current"
+  - "NDC"
+  - "Oracle Code One"
+  - "KubeCon"
+  - "Jfokus"
+  - "IntelliJ IDEA Conf"
 
 # UI Theme customization (all optional) - FR-011, US3
 # See specs/001-ui-ux-redesign/data-model.md for details
@@ -115,6 +146,9 @@ nav_links:
   - name: "Talks"
     url: "/"          # relative URL = this site; marked as the current section
     icon: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>'
+  - name: "Bio"
+    url: "/bio/"       # this site's press kit
+    icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><circle cx="12" cy="10" r="3"/><path d="M7 21v-2a5 5 0 0 1 10 0v2"/>'
   - name: "Resume"
     url: "https://gamov.io/resume/"
     icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
