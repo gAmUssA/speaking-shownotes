@@ -63,7 +63,7 @@ speaker:
   badges: ["Java Champion", "Conference Speaker", "Published Author", "Podcast Host"]
   short_bio: "Viktor Gamov is a Principal Developer Advocate at Confluent, founded by the original creators of Apache Kafka®. Viktor is known for his insightful presentations at top industry events like JavaOne, Devoxx, Kafka Summit, and QCon. His expertise spans distributed systems, real-time data streaming, JVM, and DevOps."
   youtube_url: "https://www.youtube.com/@viktorgamov"
-  speaking_since: ""               # e.g. "2011" — adds an "On stage since" stat
+  speaking_since: "2010"           # adds an "On stage since" stat
   booking_url: ""                  # e.g. "mailto:you@example.com" — shows an "Invite me to speak" button
   # Topics power the filter chips on the homepage; keywords match talk titles, events, and abstracts
   topics:
