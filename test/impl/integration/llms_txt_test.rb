@@ -17,6 +17,9 @@ class LlmsTxtTest < Minitest::Test
   RECORDING = 'https://www.youtube.com/watch?v=sTcx0EvILr4&t=18039s'
 
   def setup
+    # Forks delete the DEMO talks (README step 1), which these tests use as fixtures
+    skip "#{SKILL_STEM} demo talk removed" unless File.exist?(File.join(ROOT, '_talks', "#{SKILL_STEM}.md"))
+
     @dir = Dir.mktmpdir('llms_txt_test')
     %w[_layouts _includes _config.yml index.md llms.txt].each do |path|
       source = File.join(ROOT, path)

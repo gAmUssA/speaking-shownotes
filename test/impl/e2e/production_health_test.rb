@@ -5,7 +5,7 @@ require 'uri'
 class ProductionHealthTest < Minitest::Test
   # Configure this to your production URL
   # Examples: 'https://username.github.io/shownotes' or 'https://yourdomain.com'
-  PRODUCTION_URL = ENV['PRODUCTION_URL'] || 'https://jbaruch.github.io/shownotes'
+  PRODUCTION_URL = ENV['PRODUCTION_URL'] || 'https://gamussa.github.io/speaking-shownotes'
   
   # Helper method to fetch HTML from production
   def fetch_production_html(path = '/')
@@ -72,7 +72,7 @@ class ProductionHealthTest < Minitest::Test
     skip "Skipping production test in CI" if ci_environment?
     
     # Test with the Dev2Next 2025 RoboCoders talk
-    talk_path = '/talks/2025-10-01-dev2next-2025-robocoders-judgment-day/'
+    talk_path = '/talks/2026-09-08-intellij-idea-conf-codepocalypse-now-langchain4j-koog/'
     uri = URI.join(PRODUCTION_URL, talk_path)
     response = Net::HTTP.get_response(uri)
     
@@ -82,7 +82,7 @@ class ProductionHealthTest < Minitest::Test
   def test_production_talk_page_has_proper_title_not_slugified
     skip "Skipping production test in CI" if ci_environment?
     
-    talk_path = '/talks/2025-10-01-dev2next-2025-robocoders-judgment-day/'
+    talk_path = '/talks/2026-09-08-intellij-idea-conf-codepocalypse-now-langchain4j-koog/'
     html = fetch_production_html(talk_path)
     
     # Should have the proper title from H1
@@ -97,7 +97,7 @@ class ProductionHealthTest < Minitest::Test
   def test_production_talk_page_has_conference_name
     skip "Skipping production test in CI" if ci_environment?
     
-    talk_path = '/talks/2025-10-01-dev2next-2025-robocoders-judgment-day/'
+    talk_path = '/talks/2026-09-08-intellij-idea-conf-codepocalypse-now-langchain4j-koog/'
     html = fetch_production_html(talk_path)
     
     # Check for conference name with emoji
@@ -108,7 +108,7 @@ class ProductionHealthTest < Minitest::Test
   def test_production_talk_page_has_date
     skip "Skipping production test in CI" if ci_environment?
     
-    talk_path = '/talks/2025-10-01-dev2next-2025-robocoders-judgment-day/'
+    talk_path = '/talks/2026-09-08-intellij-idea-conf-codepocalypse-now-langchain4j-koog/'
     html = fetch_production_html(talk_path)
     
     # Check for date with emoji
@@ -119,7 +119,7 @@ class ProductionHealthTest < Minitest::Test
   def test_production_talk_page_has_video_status
     skip "Skipping production test in CI" if ci_environment?
     
-    talk_path = '/talks/2025-10-01-dev2next-2025-robocoders-judgment-day/'
+    talk_path = '/talks/2026-09-08-intellij-idea-conf-codepocalypse-now-langchain4j-koog/'
     html = fetch_production_html(talk_path)
     
     # Check for video status (either available or coming soon)
@@ -131,7 +131,7 @@ class ProductionHealthTest < Minitest::Test
   def test_production_talk_page_has_abstract_section
     skip "Skipping production test in CI" if ci_environment?
     
-    talk_path = '/talks/2025-10-01-dev2next-2025-robocoders-judgment-day/'
+    talk_path = '/talks/2026-09-08-intellij-idea-conf-codepocalypse-now-langchain4j-koog/'
     html = fetch_production_html(talk_path)
     
     # Check for Abstract heading
@@ -142,7 +142,7 @@ class ProductionHealthTest < Minitest::Test
   def test_production_talk_page_has_resources_section
     skip "Skipping production test in CI" if ci_environment?
     
-    talk_path = '/talks/2025-10-01-dev2next-2025-robocoders-judgment-day/'
+    talk_path = '/talks/2026-09-08-intellij-idea-conf-codepocalypse-now-langchain4j-koog/'
     html = fetch_production_html(talk_path)
     
     # Check for Resources heading

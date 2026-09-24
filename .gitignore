@@ -115,3 +115,9 @@ test_baseline_output.txt
 
 # Template files (not for production)
 _talks/sample-talk.md
+
+# OAuth refresh token for Google Drive uploads
+google_token.yaml
+
+# Playwright MCP session artifacts
+.playwright-mcp/

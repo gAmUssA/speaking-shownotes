@@ -25,8 +25,10 @@ class TalkMigrator
   include DateValidator
   include FilenameGenerator
   
-  def initialize(talk_url, skip_tests: false)
+  def initialize(talk_url, skip_tests: false, fallback_date: nil, no_slides: false)
     @talk_url = talk_url
+    @fallback_date = fallback_date
+    @no_slides = no_slides
     @talk_data = {}
     @resources = []
     @errors = []
@@ -304,9 +306,15 @@ class TalkMigrator
     end
     
     
+    # Some Notist talks have no date on the page; accept one from --date
+    if !@talk_data[:date] && @fallback_date
+      @talk_data[:date] = parse_date(@fallback_date)
+      puts "SUCCESS Date taken from --date option: #{@talk_data[:date]}" if @talk_data[:date]
+    end
+
     # Fallback to text parsing if structured extraction didn't work
     unless @talk_data[:date]
-      @errors << "No date found in page"
+      @errors << "No date found in page (pass --date YYYY-MM-DD)"
       return false
     end
     
@@ -411,6 +419,12 @@ class TalkMigrator
     puts "\n4️⃣ Handling PDF..."
     
     # First check if slides exist but aren't downloadable
+    # (--no-slides: the Notist "deck" is only a cover image, there is no PDF)
+    if @no_slides
+      puts "⏭️  Skipping slides (--no-slides)"
+      return true
+    end
+
     if slides_exist_but_not_downloadable?
       @errors << "❌ SLIDES EXIST BUT NOT DOWNLOADABLE: Slides are embedded but download is not enabled on Notist"
       @errors << "   📝 ACTION REQUIRED: Go to #{@talk_url} and enable 'Allow download' in slide settings"
@@ -724,6 +738,7 @@ class TalkMigrator
       ]
       
       required_sections.each_with_index do |pattern, index|
+        next if @no_slides && index == 2 # --no-slides: no Slides line by design
         unless markdown_content.match(pattern)
           section_names = ['Conference', 'Date', 'Slides']
           @errors << "Missing required section: #{section_names[index]}"
@@ -1186,20 +1201,79 @@ class TalkMigrator
   end
   
   def generate_talk_slug
-    # Generate a slug using FilenameGenerator utility (without extension)
-    generate_talk_filename(@talk_data[:date], @talk_data[:conference], @talk_data[:title], extension: '')
+    # Derive from the .md filename: title truncation depends on extension length,
+    # so generating with extension: '' can yield a longer slug than the talk file
+    File.basename(generate_talk_filename(@talk_data[:date], @talk_data[:conference], @talk_data[:title]), '.md')
   end
   
   def setup_google_drive_service
     service = Google::Apis::DriveV3::DriveService.new
     service.client_options.application_name = 'Shownotes Migration'
     
-    service.authorization = Google::Auth::ServiceAccountCredentials.make_creds(
-      json_key_io: File.open('Google API.json'),
-      scope: ['https://www.googleapis.com/auth/drive']
-    )
-    
+    service.authorization = if service_account_credentials?
+      Google::Auth::ServiceAccountCredentials.make_creds(
+        json_key_io: File.open('Google API.json'),
+        scope: ['https://www.googleapis.com/auth/drive']
+      )
+    else
+      user_drive_credentials
+    end
+
     service
+  end
+
+  # "Google API.json" is either a service account key (Workspace + Shared Drive)
+  # or an OAuth "Desktop app" client (personal Gmail, uploads to My Drive)
+  def service_account_credentials?
+    JSON.parse(File.read('Google API.json'))['type'] == 'service_account'
+  end
+
+  OAUTH_REDIRECT_PORT = 8765
+  OAUTH_TOKEN_FILE = 'google_token.yaml'
+  USER_DRIVE_FOLDER = 'Shownotes Slides'
+
+  # OAuth loopback flow: opens a browser once, then reuses the stored refresh token
+  def user_drive_credentials
+    require 'googleauth/stores/file_token_store'
+    require 'socket'
+
+    client_id = Google::Auth::ClientId.from_file('Google API.json')
+    token_store = Google::Auth::Stores::FileTokenStore.new(file: OAUTH_TOKEN_FILE)
+    redirect_uri = "http://127.0.0.1:#{OAUTH_REDIRECT_PORT}/"
+    authorizer = Google::Auth::UserAuthorizer.new(
+      client_id, ['https://www.googleapis.com/auth/drive.file'], token_store, redirect_uri
+    )
+
+    credentials = authorizer.get_credentials('default')
+    return credentials if credentials
+
+    url = authorizer.get_authorization_url
+    puts "🔐 Authorize Google Drive access in your browser:\n   #{url}"
+    system('open', url) if RUBY_PLATFORM.include?('darwin')
+
+    server = TCPServer.new('127.0.0.1', OAUTH_REDIRECT_PORT)
+    client = server.accept
+    request_line = client.gets.to_s
+    code = URI.decode_www_form(URI(request_line.split[1].to_s).query.to_s).to_h['code']
+    client.print "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n" \
+                 "#{code ? 'Authorized. You can close this tab.' : 'Authorization failed.'}"
+    client.close
+    server.close
+    raise 'Google authorization failed: no code returned' unless code
+
+    authorizer.get_and_store_credentials_from_code(user_id: 'default', code: code)
+  end
+
+  # Folder in the user's My Drive; drive.file scope only sees files this app created
+  def find_or_create_user_folder(service)
+    query = "name = '#{USER_DRIVE_FOLDER}' and mimeType = 'application/vnd.google-apps.folder' and trashed = false"
+    existing = service.list_files(q: query, fields: 'files(id)').files.first
+    return existing.id if existing
+
+    folder = Google::Apis::DriveV3::File.new(
+      name: USER_DRIVE_FOLDER, mime_type: 'application/vnd.google-apps.folder'
+    )
+    service.create_file(folder, fields: 'id').id
   end
   
   def find_shared_drive_root
@@ -1225,16 +1299,16 @@ class TalkMigrator
     begin
       service = setup_google_drive_service
       
-      # Find shared drive root folder dynamically
-      shared_drive_id = find_shared_drive_root
-      unless shared_drive_id
+      # Shared drive for service accounts, a My Drive folder for OAuth users
+      parent_id = service_account_credentials? ? find_shared_drive_root : find_or_create_user_folder(service)
+      unless parent_id
         puts "⚠️  Could not find accessible shared drive"
         return nil
       end
-      
+
       file_metadata = Google::Apis::DriveV3::File.new(
         name: File.basename(local_path),
-        parents: [shared_drive_id]
+        parents: [parent_id]
       )
       
       # Upload with support_all_drives to work with shared drives
@@ -1328,13 +1402,11 @@ class TalkMigrator
       # Extract date parts for readable format using DateValidator
       month_year = format_date(@talk_data[:date], "%B %Y")
       if month_year
-        
         context += " in\n"
         context += "                    #{month_year} in\n"
         context += "                    #{@talk_data[:location]} by \n"
         context += "                    {{ site.speaker.display_name | default: site.speaker.name }}\n\n"
-      rescue => e
-        puts "DEBUG Date parsing failed for presentation context: #{e.message}"
+      else
         # Fallback without date formatting
         context += " in\n"
         context += "                    #{@talk_data[:location]} by \n"
@@ -1741,6 +1813,14 @@ if __FILE__ == $0
     opts.on("--skip-tests", "Skip integration tests after migration") do
       options[:skip_tests] = true
     end
+
+    opts.on("--no-slides", "Talk has no PDF (e.g. only a cover image); migrate without slides") do
+      options[:no_slides] = true
+    end
+
+    opts.on("--date YYYY-MM-DD", "Talk date to use when the page has none (single talk only)") do |date|
+      options[:date] = date
+    end
     
     opts.on("-h", "--help", "Show this help message") do
       puts opts
@@ -1789,7 +1869,7 @@ if __FILE__ == $0
     puts "Will migrate individual talk"
     puts
     
-    migrator = TalkMigrator.new(url, skip_tests: options[:skip_tests] || false)
+    migrator = TalkMigrator.new(url, skip_tests: options[:skip_tests] || false, fallback_date: options[:date], no_slides: options[:no_slides] || false)
     migrator.migrate
   end
   

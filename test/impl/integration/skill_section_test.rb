@@ -53,6 +53,11 @@ class RealSiteSkillSectionTest < Minitest::Test
     end
   end
 
+  # Forks delete the DEMO talks (README step 1); TempSiteSkillSectionTest still covers the feature
+  def setup
+    skip "#{SKILL_STEM} demo talk removed" unless File.exist?(File.join(REPO_ROOT, '_talks', "#{SKILL_STEM}.md"))
+  end
+
   def site
     self.class.site
   end
