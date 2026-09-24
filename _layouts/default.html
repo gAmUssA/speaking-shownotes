@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Theme Detection Script - Inline to prevent flash (T007, FR-014, T031) -->
+    <script>
+      (function() {
+        var STORAGE_KEY = 'theme';
+        var defaultTheme = '{{ site.ui_theme.default_theme | default: "system" }}';
+        var theme;
+        try {
+          theme = localStorage.getItem(STORAGE_KEY);
+        } catch (e) {
+          // localStorage unavailable (private browsing)
+        }
+        if (theme !== 'dark' && theme !== 'light') {
+          // No stored preference - use config default or system preference
+          if (defaultTheme === 'dark') {
+            theme = 'dark';
+          } else if (defaultTheme === 'light') {
+            theme = 'light';
+          } else {
+            // "system" - detect from OS preference
+            theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+          }
+        }
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+
+    {% comment %} Custom primary color override from _config.yml (T032) {% endcomment %}
+    {% if site.ui_theme.primary_color and site.ui_theme.primary_color != "#6366f1" %}
+    <style>
+      :root {
+        --color-primary: {{ site.ui_theme.primary_color }};
+        --color-primary-dark: {{ site.ui_theme.primary_color }};
+        --primary-color: {{ site.ui_theme.primary_color }};
+        --primary-dark: {{ site.ui_theme.primary_color }};
+      }
+    </style>
+    {% endif %}
+
+    <!-- SEO -->
+    <link rel="describedby" href="{{ '/llms.txt' | relative_url }}" type="text/plain" title="Guide for AI agents">
+    <title>{% if page.title %}{{ page.title | escape }} - {% endif %}{% if site.speaker.display_name and site.speaker.display_name != "" %}Presentations by {{ site.speaker.display_name }}{% elsif site.speaker.name and site.speaker.name != "" %}Presentations by {{ site.speaker.name }}{% else %}Presentations{% endif %}</title>
+    <meta name="description" content="{% if page.description %}{{ page.description | escape }}{% else %}{{ site.speaker.bio }}{% endif %}">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{% if site.speaker.display_name and site.speaker.display_name != "" %}Presentations by {{ site.speaker.display_name }}{% elsif site.speaker.name and site.speaker.name != "" %}Presentations by {{ site.speaker.name }}{% else %}Presentations{% endif %}{% endif %}">
+    <meta property="og:description" content="{% if page.description %}{{ page.description | escape }}{% else %}{{ site.speaker.bio }}{% endif %}">
+    <meta property="og:type" content="{% if page.layout == 'talk' %}article{% else %}website{% endif %}">
+    <meta property="og:url" content="{{ page.url | absolute_url }}">
+    
+    <!-- Open Graph Image -->
+    {% if page.layout == 'talk' %}
+    {% assign talk_slug = page.path | split: '/' | last | replace: '.md', '' %}
+    <meta property="og:image" content="{{ '/assets/images/thumbnails/' | append: talk_slug | append: '-thumbnail.png' | absolute_url }}">
+    {% endif %}
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="{% if page.layout == 'talk' %}summary_large_image{% else %}summary{% endif %}">
+    <meta name="twitter:title" content="{% if page.title %}{{ page.title | escape }}{% else %}{% if site.speaker.display_name and site.speaker.display_name != "" %}Presentations by {{ site.speaker.display_name }}{% elsif site.speaker.name and site.speaker.name != "" %}Presentations by {{ site.speaker.name }}{% else %}Presentations{% endif %}{% endif %}">
+    <meta name="twitter:description" content="{% if page.description %}{{ page.description | escape }}{% else %}{{ site.speaker.bio }}{% endif %}">
+    {% if page.layout == 'talk' %}
+    <meta name="twitter:image" content="{{ '/assets/images/thumbnails/' | append: talk_slug | append: '-thumbnail.png' | absolute_url }}">
+    {% endif %}
+    
+    <!-- Security Headers -->
+    {% assign custom_notist_origins = site.resource_embeds.notist_custom_domains | trusted_notist_origins %}
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; frame-src 'self' https://www.youtube.com https://player.vimeo.com https://docs.google.com https://drive.google.com https://drive.usercontent.google.com https://noti.st{% for origin in custom_notist_origins %} {{ origin }}{% endfor %}; connect-src 'self'{% if jekyll.environment == 'development' %} ws://127.0.0.1:35729{% endif %};">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="{{ '/favicon.svg' | relative_url }}" type="image/svg+xml">
+</head>
+<body>
+    <!-- Skip navigation link (T037) -->
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <!-- Header -->
+    <header class="site-header" role="banner">
+        <div class="wrapper">
+            <a class="site-title" href="{{ '/' | relative_url }}" rel="home">Talk Shownotes</a>
+
+            <div class="site-header__actions">
+                {% unless page.url == "/" %}
+                <nav class="site-nav" role="navigation" aria-label="Main navigation">
+                    <ul>
+                        <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                    </ul>
+                </nav>
+                {% endunless %}
+                {% if site.ui_theme.show_theme_toggle != false %}
+                {% include theme-toggle.html %}
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <!-- Main content -->
+    <main id="main-content" class="page-content" role="main">
+        <div class="wrapper">
+            {{ content }}
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="site-footer" role="contentinfo">
+        <div class="wrapper">
+            <p>&copy; {{ 'now' | date: '%Y' }} {% if site.speaker.display_name and site.speaker.display_name != "" %}{{ site.speaker.display_name }}{% elsif site.speaker.name and site.speaker.name != "" %}{{ site.speaker.name }}{% else %}Speaker{% endif %}. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Theme Toggle Script (T008) -->
+    <script src="{{ '/assets/js/theme.js' | relative_url }}"></script>
+</body>
+</html>

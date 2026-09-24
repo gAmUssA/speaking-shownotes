@@ -1,0 +1,113 @@
+url: "https://jbaruch.github.io"
+baseurl: "/shownotes"
+hero_background: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1920"
+
+# Jekyll configuration
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:title/
+encoding: utf-8
+timezone: UTC
+future: true
+
+# Embedded resources
+# Canonical YouTube, Vimeo, Google, and Notist URLs work automatically.
+# To embed a Notist custom domain, add only its hostname (no scheme or path).
+resource_embeds:
+  notist_custom_domains: []
+
+# Kramdown configuration
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# Collections
+collections:
+  talks:
+    output: true
+    permalink: /talks/:path/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "talks"
+    values:
+      layout: "talk"
+
+# Build settings
+# sass:
+#   style: compressed
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# Speaker configuration (single source of truth)
+speaker:
+  name: "Baruch Sadogursky"
+  display_name: ""                 # Optional: Override for display (if empty, uses name)
+  bio: "Developer advocate and expert in DevOps, software development practices, and technology trends. Regular speaker at major conferences about improving developer productivity and software quality."
+  avatar_url: ""                   # Optional: Custom avatar URL (fallback if no social media avatars available)
+  # Social media handles (all optional - leave empty to hide)
+  social:
+    linkedin: "jbaruch"           # Optional: LinkedIn username (generates https://linkedin.com/in/jbaruch)
+    x: "jbaruch"                 # Optional: X.com username (generates https://x.com/jbaruch)  
+    github: "jbaruch"            # Optional: GitHub username (generates https://github.com/jbaruch + avatar from GitHub)
+    mastodon: ""                 # Optional: Full Mastodon URL (e.g., "https://mastodon.social/@username")
+    bluesky: "jbaru.ch"                  # Optional: BlueSky username (generates https://bsky.app/profile/jbaruch)
+
+# Site metadata (templates will use speaker config)
+title: "Speaker Presentations"
+description: "Conference talk show notes and resources"
+
+# Featured talks configuration
+featured_talks_count: 3
+
+# Featured conferences for "Featured at" logo strip (optional)
+# If configured, shows these specific conferences in order
+# If empty or not set, defaults to most recent unique conferences
+# Example:
+# featured_conferences:
+#   - "Devoxx"
+#   - "QCon"
+#   - "DevNexus"
+#   - "KubeCon"
+featured_conferences: []
+
+# UI Theme customization (all optional) - FR-011, US3
+# See specs/001-ui-ux-redesign/data-model.md for details
+# Note: Using 'ui_theme' to avoid conflict with Jekyll's built-in 'theme' setting
+ui_theme:
+  # Primary brand color (hex) - overrides --color-primary
+  primary_color: "#6366f1"
+  # Default theme: "light", "dark", or "system"
+  default_theme: "system"
+  # Show theme toggle button in header
+  show_theme_toggle: true
+
+# SEO settings (will use speaker info dynamically)
+# No need for redundant author or twitter config since speaker section provides this
+
+# Exclude from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - vendor/
+  - test/
+  - .bundle/
+  - node_modules/
+  - .git/
+  - README.md
+  - docs/
+
+# Security - Note: safe mode https://drive.google.com/drive/folders/1Q8Auh_XnZtrDsdnKe_rFOnx3mZVhphLn?usp=drive_linkstrips iframes, so disabled for embed functionality
+# safe: true
