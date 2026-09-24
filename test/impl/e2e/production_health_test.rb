@@ -5,7 +5,7 @@ require 'uri'
 class ProductionHealthTest < Minitest::Test
   # Configure this to your production URL
   # Examples: 'https://username.github.io/shownotes' or 'https://yourdomain.com'
-  PRODUCTION_URL = ENV['PRODUCTION_URL'] || 'https://gamussa.github.io/speaking-shownotes'
+  PRODUCTION_URL = ENV['PRODUCTION_URL'] || 'https://speaking.gamov.io'
   
   # Helper method to fetch HTML from production
   def fetch_production_html(path = '/')
