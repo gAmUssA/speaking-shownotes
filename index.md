@@ -121,7 +121,7 @@ layout: default
                     {% assign placeholder_url = '/assets/images/placeholder-thumbnail.svg' | relative_url %}
                     
                     <div class="featured-thumbnail">
-                        <img src="{{ thumbnail_path }}" alt="{{ talk.extracted_title | default: talk.title | escape }}" class="thumbnail-image" loading="lazy" data-fallback="{{ placeholder_url }}" onerror="this.onerror=null;this.src=this.dataset.fallback;">
+                        <img src="{{ thumbnail_path }}" alt="{{ talk.extracted_title | default: talk.title | escape }}" class="thumbnail-image" width="700" height="394" loading="lazy" decoding="async" data-fallback="{{ placeholder_url }}" onerror="this.onerror=null;this.src=this.dataset.fallback;">
                     </div>
 
                     <div class="featured-info">
@@ -193,8 +193,20 @@ layout: default
         {% if talks.size > 0 %}
         <section class="all-talks">
             <h2>All Presentations</h2>
+            {% comment %} Group by year (talks are already sorted newest first) {% endcomment %}
+            {% assign talks_by_year = talks | group_by_exp: "t", "t.extracted_date | default: t.date | date: '%Y'" %}
+            <nav aria-label="Jump to year">
+                <ul class="year-nav">
+                    {% for year in talks_by_year %}
+                    <li><a href="#year-{{ year.name }}">{{ year.name }} <span class="year-nav__count">{{ year.size }}</span></a></li>
+                    {% endfor %}
+                </ul>
+            </nav>
+            {% for year in talks_by_year %}
+            <section class="talks-year" id="year-{{ year.name }}" aria-labelledby="year-{{ year.name }}-heading">
+            <h3 class="talks-year__heading" id="year-{{ year.name }}-heading">{{ year.name }}</h3>
             <div class="talks-list">
-                {% for talk in talks %}
+                {% for talk in year.items %}
                 <article class="talk-list-item">
                     <a href="{{ talk.url | relative_url }}" class="talk-list-item-link">
                     {% comment %} Extract slides resource for preview (prioritize slides over video) {% endcomment %}
@@ -205,7 +217,7 @@ layout: default
                     {% assign placeholder_url = '/assets/images/placeholder-thumbnail.svg' | relative_url %}
                     
                         <div class="talk-thumbnail">
-                            <img src="{{ thumbnail_path }}" alt="{{ talk.extracted_title | default: talk.title | escape }}" class="thumbnail-image" loading="lazy" data-fallback="{{ placeholder_url }}" onerror="this.onerror=null;this.src=this.dataset.fallback;">
+                            <img src="{{ thumbnail_path }}" alt="{{ talk.extracted_title | default: talk.title | escape }}" class="thumbnail-image" width="700" height="394" loading="lazy" decoding="async" data-fallback="{{ placeholder_url }}" onerror="this.onerror=null;this.src=this.dataset.fallback;">
                         </div>
                         
                         <div class="talk-info">
@@ -271,6 +283,8 @@ layout: default
                 </article>
                 {% endfor %}
             </div>
+            </section>
+            {% endfor %}
         </section>
         {% endif %}
 

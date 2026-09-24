@@ -74,10 +74,12 @@
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
     
     <!-- Stylesheets -->
-    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Same type stack as gamov.io: Lora (headings, prose), Inter (UI), JetBrains Mono (code) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/css/gamov.css' | relative_url }}">
     
     <!-- Favicon -->
     <link rel="icon" href="{{ '/favicon.svg' | relative_url }}" type="image/svg+xml">
@@ -88,20 +90,30 @@
     <!-- Header -->
     <header class="site-header" role="banner">
         <div class="wrapper">
-            <a class="site-title" href="{{ '/' | relative_url }}" rel="home">Talk Shownotes</a>
-
-            <div class="site-header__actions">
-                {% unless page.url == "/" %}
-                <nav class="site-nav" role="navigation" aria-label="Main navigation">
-                    <ul>
-                        <li><a href="{{ '/' | relative_url }}">Home</a></li>
-                    </ul>
-                </nav>
-                {% endunless %}
+            <div class="site-header__top">
+                <a class="site-title" href="{{ site.brand.url | default: '/' | relative_url }}"{% unless site.brand.url %} rel="home"{% endunless %}>{{ site.brand.name | default: 'Talk Shownotes' }}</a>
                 {% if site.ui_theme.show_theme_toggle != false %}
                 {% include theme-toggle.html %}
                 {% endif %}
             </div>
+
+            <nav class="site-nav" role="navigation" aria-label="Main navigation">
+                <ul>
+                    {% if site.nav_links %}
+                    {% for link in site.nav_links %}
+                    {% assign is_local = link.url | slice: 0 %}
+                    <li>
+                        <a href="{% if is_local == '/' %}{{ link.url | relative_url }}{% else %}{{ link.url }}{% endif %}"{% if is_local == '/' %} aria-current="{% if page.url == '/' %}page{% else %}true{% endif %}" class="is-current"{% endif %}>
+                            {% if link.icon %}<svg class="site-nav__icon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">{{ link.icon }}</svg>{% endif %}
+                            {{ link.name }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                    <li><a href="{{ '/' | relative_url }}">Home</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
         </div>
     </header>
 
@@ -115,7 +127,7 @@
     <!-- Footer -->
     <footer class="site-footer" role="contentinfo">
         <div class="wrapper">
-            <p>&copy; {{ 'now' | date: '%Y' }} {% if site.speaker.display_name and site.speaker.display_name != "" %}{{ site.speaker.display_name }}{% elsif site.speaker.name and site.speaker.name != "" %}{{ site.speaker.name }}{% else %}Speaker{% endif %}. All rights reserved.</p>
+            <p>&copy; {{ 'now' | date: '%Y' }}{% if site.brand.url %} <a href="{{ site.brand.url }}">{% endif %} {% if site.speaker.display_name and site.speaker.display_name != "" %}{{ site.speaker.display_name }}{% elsif site.speaker.name and site.speaker.name != "" %}{{ site.speaker.name }}{% else %}Speaker{% endif %}{% if site.brand.url %}</a>{% endif %}. All rights reserved.</p>
         </div>
     </footer>
 

@@ -56,7 +56,7 @@ plugins:
 speaker:
   name: "Viktor Gamov"
   display_name: ""                 # Optional: Override for display (if empty, uses name)
-  bio: "Principal Developer Advocate at Confluent, founded by the original creators of Apache Kafka®. Java Champion and speaker at JavaOne, Devoxx, Kafka Summit, and QCon. Expertise spans distributed systems, real-time data streaming, JVM, and DevOps. Co-author of \"Enterprise Web Development\" and \"Apache Kafka® in Action\"."
+  bio: "Principal Developer Advocate at Confluent, founded by the original creators of Apache Kafka®. Java Champion and speaker at JavaOne, Devoxx, Kafka Summit, and QCon. Expertise spans distributed systems, real-time data streaming, JVM, and DevOps. Co-author of “Enterprise Web Development” and “Apache Kafka® in Action”."
   avatar_url: ""                   # Optional: Custom avatar URL (fallback if no social media avatars available)
   # Social media handles (all optional - leave empty to hide)
   social:
@@ -67,7 +67,7 @@ speaker:
     bluesky: ""                  # Optional: BlueSky username
 
 # Site metadata (templates will use speaker config)
-title: "Speaker Presentations"
+title: "Viktor Gamov — Talks"
 description: "Conference talk show notes and resources"
 
 # Featured talks configuration
@@ -89,11 +89,36 @@ featured_conferences: []
 # Note: Using 'ui_theme' to avoid conflict with Jekyll's built-in 'theme' setting
 ui_theme:
   # Primary brand color (hex) - overrides --color-primary
-  primary_color: "#6366f1"
+  primary_color: "#6366f1"  # default = no override; gamov.css sets the brand palette
   # Default theme: "light", "dark", or "system"
   default_theme: "system"
   # Show theme toggle button in header
   show_theme_toggle: true
+
+# Header brand and navigation, shared with gamov.io so both sites look like one
+brand:
+  name: "Viktor Gamov"
+  url: "https://gamov.io/"
+# icon: Lucide icon SVG markup (24x24 viewBox), same set gamov.io uses
+nav_links:
+  - name: "Blog"
+    url: "https://gamov.io/posts/"
+    icon: '<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/>'
+  - name: "Projects"
+    url: "https://gamov.io/projects/"
+    icon: '<path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M14 14h7v7h-7z"/><path d="M3 14h7v7H3z"/>'
+  - name: "Workshops"
+    url: "https://gamov.io/workshops/"
+    icon: '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 17c2 0 2.8-1 2.8-2.8V10c0-2 1-3.3 3.2-3"/><path d="M9 11.2h5.7"/>'
+  - name: "YouTube"
+    url: "https://www.youtube.com/@viktorgamov"
+    icon: '<path d="M2.5 17a24.12 24.12 0 0 1 0-10 2 2 0 0 1 1.4-1.4 49.56 49.56 0 0 1 16.2 0A2 2 0 0 1 21.5 7a24.12 24.12 0 0 1 0 10 2 2 0 0 1-1.4 1.4 49.55 49.55 0 0 1-16.2 0A2 2 0 0 1 2.5 17"/><path d="m10 15 5-3-5-3z"/>'
+  - name: "Talks"
+    url: "/"          # relative URL = this site; marked as the current section
+    icon: '<path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/>'
+  - name: "Resume"
+    url: "https://gamov.io/resume/"
+    icon: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
 
 # SEO settings (will use speaker info dynamically)
 # No need for redundant author or twitter config since speaker section provides this

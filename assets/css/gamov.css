@@ -1,0 +1,511 @@
+/* ==========================================================================
+   gamov.io design system, layered over main.css
+   Mirrors ~/projects/gamussa.github.com/assets/css/extended/custom.css:
+   Lora (headings, prose) + Inter (UI chrome) + JetBrains Mono (code),
+   indigo accent, teal links, dark slate nav and footer, soft corners.
+   ========================================================================== */
+
+/* ---------- Tokens: light ---------- */
+:root {
+    --serif: 'Lora', Georgia, 'Times New Roman', serif;
+    --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --mono: 'JetBrains Mono', Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+    --font-display: var(--serif);
+    --font-body: var(--sans);
+    --font-mono: var(--mono);
+    --font-family: var(--sans);
+
+    --nav-bg: #1a202c;
+    --nav-text: #e0e0e0;
+    --footer-text: #a1a1aa;
+    --content-width: 960px;     /* gamov.io content column */
+    --prose-measure: 72ch;
+
+    /* gamov.io indigo; accent-dark doubles as hover */
+    --color-accent: #4F46E5;
+    --color-accent-dark: #4338CA;
+    --color-accent-light: #EEF2FF;
+    /* gamov.io link teal, darkened from #0891b2 to reach 4.5:1 on white */
+    --color-link: #0e7490;
+    --color-link-hover: #155e75;
+
+    --color-background: #ffffff;
+    --color-surface: #ffffff;
+    --color-surface-elevated: #ffffff;
+    --color-text-primary: #1a202c;
+    --color-text-secondary: #4b5563;
+    --color-text-muted: #64748b;
+    --color-border: #e2e8f0;
+    --color-border-strong: #cbd5e1;
+
+    --radius-sm: 4px;
+    --radius-md: 6px;
+    --radius-lg: 8px;
+
+    /* No neubrutalist offset shadows */
+    --shadow-sm: none;
+    --shadow-md: 0 1px 2px rgba(15, 23, 42, 0.06);
+    --shadow-lg: 0 4px 16px rgba(15, 23, 42, 0.08);
+    --shadow-hard: none;
+
+    --transition-base: 200ms ease;
+}
+
+/* ---------- Tokens: dark ---------- */
+[data-theme="dark"] {
+    --color-background: #0a0a0a;
+    --color-surface: #141414;
+    --color-surface-elevated: #141414;
+    --color-text-primary: #f1f5f9;
+    --color-text-secondary: #cbd5e1;
+    --color-text-muted: #94a3b8;
+    --color-border: #334155;
+    --color-border-strong: #475569;
+    --color-accent: #818CF8;
+    --color-accent-dark: #A5B4FC;
+    --color-accent-light: #1e1b4b;
+    --color-link: #22d3ee;
+    --color-link-hover: #67e8f9;
+
+    --background: var(--color-background);
+    --surface: var(--color-surface);
+    --border-color: var(--color-border);
+    --text-primary: var(--color-text-primary);
+    --text-secondary: var(--color-text-secondary);
+    --text-muted: var(--color-text-muted);
+    --shadow-md: none;
+    --shadow-lg: none;
+}
+
+/* ---------- Base ---------- */
+a {
+    color: var(--color-link);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+a:hover {
+    color: var(--color-link-hover);
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--serif);
+    font-weight: 600;
+    text-transform: none;
+    letter-spacing: -0.01em;
+}
+
+code, pre, kbd {
+    font-family: var(--mono);
+}
+
+.wrapper {
+    max-width: calc(var(--content-width) + 2 * var(--space-6));
+}
+
+/* .home-page sits inside .wrapper; don't pad twice */
+.home-page {
+    max-width: none;
+    padding: 0;
+}
+
+.page-content {
+    padding: var(--space-10) 0 var(--space-16);
+}
+
+/* ---------- Header: full-width dark slate bar, like gamov.io ---------- */
+.site-header {
+    position: static;
+    background: var(--nav-bg);
+    border-bottom: none;
+    padding: var(--space-2) 0 var(--space-1);
+}
+
+.site-header .wrapper {
+    display: block;
+}
+
+.site-header__top {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: 44px;
+}
+
+.site-title,
+[data-theme="dark"] .site-title {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 500;
+    letter-spacing: 0;
+    color: #ffffff;
+}
+
+.site-title {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+}
+
+.site-title:hover {
+    color: #ffffff;
+    opacity: 0.85;
+}
+
+.theme-toggle,
+[data-theme="dark"] .theme-toggle {
+    width: 44px;
+    height: 44px;
+    color: var(--nav-text);
+    border-radius: var(--radius-md);
+}
+
+.theme-toggle:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.site-nav ul {
+    flex-wrap: wrap;
+    gap: 0 var(--space-5);
+}
+
+.site-nav a,
+[data-theme="dark"] .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    min-height: 44px;
+    padding: 0;
+    font-family: var(--sans);
+    font-size: 1rem;
+    font-weight: 400;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--nav-text);
+    border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover,
+[data-theme="dark"] .site-nav a:hover {
+    color: #ffffff;
+    border-bottom-color: transparent;
+}
+
+.site-nav a.is-current {
+    color: #ffffff;
+    border-bottom-color: var(--color-accent);
+}
+
+.site-nav__icon {
+    flex-shrink: 0;
+}
+
+.site-nav a:focus-visible,
+.site-title:focus-visible,
+.theme-toggle:focus-visible,
+.site-footer a:focus-visible {
+    outline-color: #ffffff;
+}
+
+/* ---------- Footer: matches the nav bar ---------- */
+.site-footer,
+[data-theme="dark"] .site-footer {
+    background: var(--nav-bg);
+    border-top: none;
+    padding: var(--space-6) 0;
+}
+
+.site-footer p {
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--footer-text);
+}
+
+.site-footer a {
+    color: #d4d4d8;
+    text-decoration: none;
+}
+
+.site-footer a:hover {
+    color: #ffffff;
+}
+
+/* ---------- Speaker bar ---------- */
+.speaker-bar,
+[data-theme="dark"] .speaker-bar {
+    border-bottom-color: var(--color-border);
+}
+
+.speaker-bar__name,
+.speaker-bar__info h1,
+[data-theme="dark"] .speaker-bar__name,
+[data-theme="dark"] .speaker-bar__info h1 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    color: var(--color-text-primary);
+}
+
+.speaker-bar__bio,
+[data-theme="dark"] .speaker-bar__bio {
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: var(--prose-measure);
+}
+
+.speaker-bar__social .social-link,
+[data-theme="dark"] .speaker-bar__social .social-link {
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-md);
+    color: var(--color-text-muted);
+}
+
+.speaker-bar__social .social-link:hover,
+[data-theme="dark"] .speaker-bar__social .social-link:hover {
+    color: var(--color-text-primary);
+    background: var(--color-accent-light);
+}
+
+/* ---------- Section headings: sentence case serif, not shouty caps ---------- */
+.featured-talks h2,
+.all-talks h2,
+.empty-state h2 {
+    font-family: var(--serif);
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    margin-bottom: var(--space-8);
+}
+
+/* ---------- Cards ---------- */
+.featured-talk-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.featured-talk-card:hover {
+    transform: none;
+    border-color: var(--color-accent);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Hover feedback without scaling the image */
+.featured-talk-card:hover .thumbnail-image {
+    transform: none;
+}
+
+.featured-info {
+    padding: var(--space-6);
+}
+
+.featured-info h3,
+.talk-info h3 {
+    font-family: var(--serif);
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.featured-talk-card:hover .featured-info h3,
+.talk-list-item:hover .talk-info h3 {
+    color: var(--color-accent);
+}
+
+.talk-thumbnail {
+    border-radius: var(--radius-md);
+    background: var(--color-border);
+}
+
+/* ---------- Meta line: Inter, like gamov.io post meta ---------- */
+.meta-item {
+    font-family: var(--sans);
+    font-size: 0.8125rem;
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--color-text-muted);
+}
+
+.meta-item.conference-name {
+    color: var(--color-text-secondary);
+    font-weight: 500;
+}
+
+.meta-item.status-badge.video-published,
+[data-theme="dark"] .meta-item.status-badge.video-published {
+    color: var(--color-accent);
+    font-weight: 500;
+}
+
+.talk-summary {
+    font-family: var(--serif);
+    font-size: 0.95rem;
+    color: var(--color-text-secondary);
+}
+
+/* ---------- All talks: year jump links + year headings ---------- */
+.all-talks {
+    margin-top: var(--space-16);
+    padding-top: 0;
+}
+
+.year-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-8);
+    padding: 0;
+    list-style: none;
+}
+
+/* Pill style from gamov.io homepage badges */
+.year-nav a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: 9999px;
+    font-family: var(--sans);
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: border-color var(--transition-base), color var(--transition-base);
+}
+
+.year-nav a:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+}
+
+.year-nav__count {
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+}
+
+.talks-year {
+    scroll-margin-top: var(--space-6);
+}
+
+.talks-year + .talks-year {
+    margin-top: var(--space-12);
+}
+
+.talks-year__heading {
+    font-family: var(--serif);
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 var(--space-2);
+    padding-bottom: var(--space-2);
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+}
+
+/* ---------- Talk page ---------- */
+.talk-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-transform: none;
+}
+
+.talk-description,
+.talk-main-content p,
+.talk-main-content li {
+    font-family: var(--serif);
+    font-size: 1.125rem;
+    line-height: 1.6;
+    max-width: var(--prose-measure);
+}
+
+.media-item h2,
+.talk-resources h2,
+.talk-skill__heading,
+.talk-skill__install-heading {
+    font-family: var(--serif);
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 var(--space-5);
+    border-radius: var(--radius-md);
+    background: var(--color-accent);
+    color: #ffffff;
+    font-family: var(--sans);
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.btn-primary:hover {
+    background: var(--color-accent-dark);
+    color: #ffffff;
+}
+
+[data-theme="dark"] .btn-primary,
+[data-theme="dark"] .btn-primary:hover {
+    color: #0a0a0a;
+}
+
+.talk-header {
+    border-bottom: 1px solid var(--color-border);
+}
+
+.media-item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+}
+
+.media-item h2 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.embed-container {
+    border-radius: var(--radius-md);
+    background: var(--color-border);
+}
+
+.breadcrumb a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+}
+
+@media (max-width: 480px) {
+    .site-nav ul {
+        gap: 0 var(--space-4);
+    }
+
+    .site-nav a {
+        font-size: 0.9375rem;
+    }
+
+    .featured-talks h2,
+    .all-talks h2 {
+        font-size: 1.6rem;
+    }
+
+    .speaker-bar {
+        align-items: flex-start;
+    }
+}
