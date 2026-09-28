@@ -55,13 +55,13 @@ plugins:
 speaker:
   name: "Viktor Gamov"
   display_name: ""                 # Optional: Override for display (if empty, uses name)
-  bio: "Principal Developer Advocate at Confluent, founded by the original creators of Apache Kafka®. Java Champion and speaker at JavaOne, Devoxx, Kafka Summit, and QCon. Expertise spans distributed systems, real-time data streaming, JVM, and DevOps. Co-author of “Enterprise Web Development” and “Apache Kafka® in Action”."
+  bio: "Principal Developer Advocate at Confluent, an IBM Company. Java Champion and speaker at JavaOne, Devoxx, Kafka Summit, and QCon. Expertise spans distributed systems, real-time data streaming, JVM, and DevOps. Co-author of “Enterprise Web Development” and “Apache Kafka® in Action”."
   # Portfolio hero (all optional)
-  headline: "Principal Developer Advocate at Confluent"
+  headline: "Principal Developer Advocate at Confluent, an IBM Company"
   # Hero intro, same voice as the gamov.io homepage (falls back to bio)
   intro: "I build, break, and explain distributed systems. Developer advocate, author of Kafka in Action, and co-host of DevRel Radio. I’ve spent two decades turning complex tech into something humans actually enjoy using."
   badges: ["Java Champion", "Conference Speaker", "Published Author", "Podcast Host"]
-  short_bio: "Viktor Gamov is a Principal Developer Advocate at Confluent, founded by the original creators of Apache Kafka®. Viktor is known for his insightful presentations at top industry events like JavaOne, Devoxx, Kafka Summit, and QCon. His expertise spans distributed systems, real-time data streaming, JVM, and DevOps."
+  short_bio: "Viktor Gamov is a Principal Developer Advocate at Confluent, an IBM Company. Viktor is known for his insightful presentations at top industry events like JavaOne, Devoxx, Kafka Summit, and QCon. His expertise spans distributed systems, real-time data streaming, JVM, and DevOps."
   youtube_url: "https://www.youtube.com/@viktorgamov"
   speaking_since: "2010"           # adds an "On stage since" stat
   booking_url: ""                  # e.g. "mailto:you@example.com" — shows an "Invite me to speak" button
