@@ -8,6 +8,7 @@ layout: talk
 **Conference:** Amsterdam JUG  
 **Date:** 2026-06-02  
 **Slides:** [View Slides](https://drive.google.com/file/d/1703y9pb_q3FdSswy5mlh1dTEJSKflhdO/view)  
+**Video:** [Watch Video](https://www.youtube.com/watch?v=Pbc2ndB7ZMs)  
 
 A presentation at Amsterdam JUG in
                     June 2026 in
