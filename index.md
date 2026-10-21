@@ -141,26 +141,19 @@ layout: default
     {% endunless %}
 
     {% if talks.size > 0 %}
-        {% comment %} Filter for talks with preview resources to feature them {% endcomment %}
+        {% comment %} Feature the latest talks with a video or slides, so a talk shows up before its recording is out {% endcomment %}
         {% assign talks_with_previews = '' | split: '' %}
         {% for talk in talks %}
-            {% if talk.extracted_video %}
+            {% if talk.extracted_video or talk.extracted_slides or talk.thumbnail_url %}
                 {% assign talks_with_previews = talks_with_previews | push: talk %}
             {% endif %}
         {% endfor %}
-        {% if talks_with_previews.size == 0 %}
-            {% for talk in talks %}
-                {% if talk.extracted_slides or talk.thumbnail_url %}
-                    {% assign talks_with_previews = talks_with_previews | push: talk %}
-                {% endif %}
-            {% endfor %}
-        {% endif %}
 
         {% assign recent_talks = talks_with_previews | slice: 0, 3 %}
 
         {% if recent_talks.size > 0 %}
         <section class="featured-talks">
-            <h2>Recent recorded talks</h2>
+            <h2>Recent talks</h2>
             <div class="featured-talks-grid">
                 {% for talk in recent_talks %}
                   <article class="featured-talk-card">
