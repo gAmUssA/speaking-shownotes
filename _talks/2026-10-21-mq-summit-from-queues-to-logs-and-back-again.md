@@ -8,6 +8,7 @@ layout: talk
 **Conference:** MQ Summit 2026  
 **Date:** 2026-10-21  
 **Slides:** [View Slides](https://drive.google.com/file/d/16tnqqJLWPHs4Q6hpzIpxk4o1X-tmWCsn/view)  
+**Video:** [Watch Video](https://www.youtube.com/watch?v=MHv7YmdpkR0)  
 
 A presentation at MQ Summit 2026 in
                     October 2026 in
