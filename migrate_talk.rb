@@ -1249,15 +1249,29 @@ class TalkMigrator
 
     url = authorizer.get_authorization_url
     puts "🔐 Authorize Google Drive access in your browser:\n   #{url}"
+    # Listen before opening the browser so the redirect can never race the server.
+    server = TCPServer.new('127.0.0.1', OAUTH_REDIRECT_PORT)
     system('open', url) if RUBY_PLATFORM.include?('darwin')
 
-    server = TCPServer.new('127.0.0.1', OAUTH_REDIRECT_PORT)
-    client = server.accept
-    request_line = client.gets.to_s
-    code = URI.decode_www_form(URI(request_line.split[1].to_s).query.to_s).to_h['code']
-    client.print "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n" \
-                 "#{code ? 'Authorized. You can close this tab.' : 'Authorization failed.'}"
-    client.close
+    code = nil
+    # Browsers may hit the loopback port before Google's redirect (preconnects,
+    # favicon requests). Keep listening until the redirect carrying `code` or
+    # `error` arrives, answering anything else with 404.
+    loop do
+      client = server.accept
+      request_line = client.gets.to_s
+      params = URI.decode_www_form(URI(request_line.split[1].to_s).query.to_s).to_h
+      unless params.key?('code') || params.key?('error')
+        client.print "HTTP/1.1 404 Not Found\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
+        client.close
+        next
+      end
+      code = params['code']
+      client.print "HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\n\r\n" \
+                   "#{code ? 'Authorized. You can close this tab.' : 'Authorization failed.'}"
+      client.close
+      break
+    end
     server.close
     raise 'Google authorization failed: no code returned' unless code
 
