@@ -7,7 +7,7 @@ layout: talk
 
 **Conference:** Current 2026 San Francisco  
 **Date:** 2026-11-05  
-**Slides:** [View Slides](https://drive.google.com/file/d/1L4zP7H-JkQxubISNjLQs-4OWfDWH5Fhu/view)  
+**Slides:** [View Slides](https://drive.google.com/file/d/1OY6W27akECWjBXXPNt5zmIPJLOQ1rE6U/view)  
 
 A presentation at Current 2026 San Francisco in
                     November 2026 in
