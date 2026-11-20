@@ -6,6 +6,7 @@ layout: talk
 
 **Conference:** Open Conf 2026  
 **Date:** 2026-11-20  
+**Slides:** [View Slides](https://drive.google.com/file/d/1DipuIXMnbVa3_oY6-Q4P_byhHN3G6w4n/view)  
 
 A presentation at Open Conf 2026 in
                     November 2026 in
