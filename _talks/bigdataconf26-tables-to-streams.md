@@ -6,6 +6,7 @@ layout: talk
 
 **Conference:** Big Data Conference Europe 2026  
 **Date:** 2026-11-25  
+**Slides:** [View Slides](https://drive.google.com/file/d/19Kxt2JDUrRUGVJd9g7dDxp-bKdXqR-Y6/view)  
 
 A presentation at Big Data Conference Europe 2026 in
                     November 2026 in
